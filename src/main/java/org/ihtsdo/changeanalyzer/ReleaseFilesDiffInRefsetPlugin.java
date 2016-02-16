@@ -1,22 +1,31 @@
 package org.ihtsdo.changeanalyzer;
 
-import org.apache.log4j.Logger;
-import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
-import org.ihtsdo.changeanalyzer.utils.Type5UuidFactory;
-import org.ihtsdo.changeanalyzer.data.Rf2DescriptionRow;
-import org.ihtsdo.changeanalyzer.data.Rf2LanguageRefsetRow;
-import org.ihtsdo.changeanalyzer.file.*;
-import org.ihtsdo.changeanalyzer.FileFilterAndSorter;
-import org.ihtsdo.changeanalyzer.utils.CommonUtils;
-import org.ihtsdo.changeanalyzer.utils.FileHelper;
-
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.UUID;
+
+import org.apache.log4j.Logger;
+import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.MojoFailureException;
+import org.ihtsdo.changeanalyzer.data.Rf2DescriptionRow;
+import org.ihtsdo.changeanalyzer.data.Rf2LanguageRefsetRow;
+import org.ihtsdo.changeanalyzer.file.Rf2AssociationRefsetFile;
+import org.ihtsdo.changeanalyzer.file.Rf2AttributeValueRefsetFile;
+import org.ihtsdo.changeanalyzer.file.Rf2ConceptFile;
+import org.ihtsdo.changeanalyzer.file.Rf2DescriptionFile;
+import org.ihtsdo.changeanalyzer.file.Rf2LanguageRefsetFile;
+import org.ihtsdo.changeanalyzer.utils.CommonUtils;
+import org.ihtsdo.changeanalyzer.utils.FileHelper;
+import org.ihtsdo.changeanalyzer.utils.Type5UuidFactory;
 
 /**
  * @goal report-differences-to-refset
@@ -851,7 +860,6 @@ public class ReleaseFilesDiffInRefsetPlugin extends AbstractMojo {
 		return newcomponents;
 	}
 
-	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
 		try {
 			if (!outputDirectory.exists()) {

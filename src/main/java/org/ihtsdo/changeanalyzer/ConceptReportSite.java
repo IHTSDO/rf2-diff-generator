@@ -1,5 +1,20 @@
 package org.ihtsdo.changeanalyzer;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import java.util.Set;
+
 import org.apache.maven.doxia.markup.HtmlMarkup;
 import org.apache.maven.doxia.module.xhtml.XhtmlSink;
 import org.apache.maven.doxia.module.xhtml.XhtmlSinkFactory;
@@ -10,10 +25,6 @@ import org.apache.maven.doxia.siterenderer.Renderer;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.reporting.AbstractMavenReport;
 import org.apache.maven.reporting.MavenReportException;
-
-import java.io.*;
-import java.net.URLEncoder;
-import java.util.*;
 
 /**
  * Reports all new concepts in a release file.
@@ -269,17 +280,14 @@ public class ConceptReportSite extends AbstractMavenReport {
 		return siteRenderer;
 	}
 
-	@Override
 	public String getDescription(Locale locale) {
 		return getBundle(locale).getString("report.description");
 	}
 
-	@Override
 	public String getName(Locale locale) {
 		return getBundle(locale).getString("report.name");
 	}
 
-	@Override
 	public String getOutputName() {
 		return project.getArtifactId() + conceptFileToReport.replaceAll(".txt", "") + "-Site-Report";
 	}

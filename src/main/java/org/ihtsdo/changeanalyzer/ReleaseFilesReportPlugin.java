@@ -1,22 +1,42 @@
 package org.ihtsdo.changeanalyzer;
 
-import com.google.gson.Gson;
-import org.apache.log4j.Logger;
-import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
-import org.ihtsdo.changeanalyzer.data.*;
-import org.ihtsdo.changeanalyzer.file.*;
-import org.ihtsdo.changeanalyzer.model.*;
-import org.ihtsdo.changeanalyzer.FileFilterAndSorter;
-import org.ihtsdo.changeanalyzer.utils.FileHelper;
-
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.log4j.Logger;
+import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.MojoFailureException;
+import org.ihtsdo.changeanalyzer.data.Rf2AssociationRefsetRow;
+import org.ihtsdo.changeanalyzer.data.Rf2AttributeValueRefsetRow;
+import org.ihtsdo.changeanalyzer.data.Rf2DescriptionRow;
+import org.ihtsdo.changeanalyzer.data.Rf2LanguageRefsetRow;
+import org.ihtsdo.changeanalyzer.data.Rf2RelationshipRow;
+import org.ihtsdo.changeanalyzer.file.Rf2AssociationRefsetFile;
+import org.ihtsdo.changeanalyzer.file.Rf2AttributeValueRefsetFile;
+import org.ihtsdo.changeanalyzer.file.Rf2ConceptFile;
+import org.ihtsdo.changeanalyzer.file.Rf2DescriptionFile;
+import org.ihtsdo.changeanalyzer.file.Rf2LanguageRefsetFile;
+import org.ihtsdo.changeanalyzer.file.Rf2RelationshipFile;
+import org.ihtsdo.changeanalyzer.model.ChangeSummary;
+import org.ihtsdo.changeanalyzer.model.Concept;
+import org.ihtsdo.changeanalyzer.model.Description;
+import org.ihtsdo.changeanalyzer.model.FileChangeReport;
+import org.ihtsdo.changeanalyzer.model.Relationship;
+import org.ihtsdo.changeanalyzer.model.RetiredConcept;
+import org.ihtsdo.changeanalyzer.utils.FileHelper;
+
+import com.google.gson.Gson;
 
 /**
  * @goal report-differences
@@ -80,6 +100,39 @@ public class ReleaseFilesReportPlugin extends AbstractMojo {
 	 */
 	private File inputDirectory;
 
+	public File getOutputDirectory() {
+		return outputDirectory;
+	}
+
+	public void setOutputDirectory(File outputDirectory) {
+		this.outputDirectory = outputDirectory;
+	}
+
+	public File getInputDirectory() {
+		return inputDirectory;
+	}
+
+	public void setInputDirectory(File inputDirectory) {
+		this.inputDirectory = inputDirectory;
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+
+	public String getReleaseDate() {
+		return releaseDate;
+	}
+
+	public void setReleaseDate(String releaseDate) {
+		this.releaseDate = releaseDate;
+	}
+
+
 	/**
 	 * Start date for the reports.
 	 * 
@@ -115,7 +168,6 @@ public class ReleaseFilesReportPlugin extends AbstractMojo {
 
 	private boolean langTargetCtrl;
 
-	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
 		try {
 			if (!outputDirectory.exists()) {
@@ -880,4 +932,12 @@ public class ReleaseFilesReportPlugin extends AbstractMojo {
 		DESCRIPTION, CONCEPT, RELATIONSHIP, ATTRIBUTE_VALUE_REFSET, ASSOCIATION_REFSET, LANGUAGE_REFSET
 	}
 
+
+	public String getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
 }
