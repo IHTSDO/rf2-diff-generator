@@ -401,7 +401,8 @@ public class ReleaseFilesReportPlugin extends AbstractMojo {
 		String result = "";
 		switch (descriptions) {
 		case DESCRIPTION:
-			result = getFilePathRecursive(inputDirectory, "description");
+			//add sct2 for description to differentiate from the descriptionType refset file
+			result = getFilePathRecursive(inputDirectory, "sct2_description");
 			break;
 		case CONCEPT:
 			result = getFilePathRecursive(inputDirectory, "concept");
