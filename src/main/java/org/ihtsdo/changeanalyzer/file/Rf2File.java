@@ -230,7 +230,6 @@ public class Rf2File<T extends Rf2Row> {
 		ArrayList<Long> result = new ArrayList<Long>();
 		Set<Long> keyset = rows.keySet();
 		int conut = 0;
-		System.out.println(rows.size());
 		for (Long long1 : keyset) {
 			Set<T> currentRows = rows.get(long1);
 			String biggestStartDate = "00000000";
@@ -285,45 +284,6 @@ public class Rf2File<T extends Rf2Row> {
 		return result;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.termmed.rf2.file.Rf2FileInterface#getNewRetiredCount()
-	 */
-	public int getNewRetiredCount() {
-		return 0;
-	}
-
-	private boolean newConcept(String startDate) {
-		// if (!rows.isEmpty() &&
-		// rows.get(0).getEffectiveTime().compareTo(startDate) > 0) {
-		// return true;
-		// } else {
-		return false;
-		// }
-	}
-
-	private boolean changedConcept(String startDate, String endDate) {
-		return true;
-	}
-
-	private boolean retiredConcept(String startDate, String endDate) {
-		// if (!rows.isEmpty() &&
-		// rows.get(0).getEffectiveTime().compareTo(startDate) == 0) {
-		return true;
-		// } else {
-		// return false;
-		// }
-	}
-
-	private boolean reactivated(String startDate, String endDate) {
-		return true;
-	}
-
-	private boolean newRetired(String startDate, String endDate) {
-		return true;
-	}
-
 	public boolean between(String startDate, String endDate, T rf2Row) {
 		return rf2Row.getEffectiveTime().compareTo(startDate) >= 0 && rf2Row.getEffectiveTime().compareTo(endDate) <= 0;
 	}
@@ -331,7 +291,6 @@ public class Rf2File<T extends Rf2Row> {
 	public void releasePreciousMemory() {
 		rows.clear();
 		rows = null;
-		System.gc();
 	}
 	
 	public String getFileName(){

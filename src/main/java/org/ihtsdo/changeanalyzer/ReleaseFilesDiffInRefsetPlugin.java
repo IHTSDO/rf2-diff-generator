@@ -31,7 +31,7 @@ import org.ihtsdo.changeanalyzer.utils.Type5UuidFactory;
  * @goal report-differences-to-refset
  * @phase install
  */
-
+@Deprecated
 public class ReleaseFilesDiffInRefsetPlugin extends AbstractMojo {
 
 	public enum ReleaseFileTypes {
