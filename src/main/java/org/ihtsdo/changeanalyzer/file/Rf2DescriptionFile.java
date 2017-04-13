@@ -32,33 +32,35 @@ public class Rf2DescriptionFile extends Rf2File<Rf2DescriptionRow> {
 	@Override
 	protected void loadFile() throws Exception {
 		conceptIdFsn = new HashMap<Long, String>();
-		FileInputStream fis = new FileInputStream(file);
-		InputStreamReader isr = new InputStreamReader(fis, "UTF-8");
-		BufferedReader br = new BufferedReader(isr);
-		br.readLine();
-		rows = new HashMap<Long, Set<Rf2DescriptionRow>>();
-		int counter = 1;
-		while (br.ready()) {
-			String line = br.readLine();
-			Rf2DescriptionRow currentRow = new Rf2DescriptionRow(line);
-			if (currentRow.getTypeId() == 900000000000003001L) {
-				conceptIdFsn.put(currentRow.getConceptId(), currentRow.getTerm());
-			}
+		if (file != null) {
+			try (FileInputStream fis = new FileInputStream(file);
+					InputStreamReader isr = new InputStreamReader(fis, "UTF-8");
+					BufferedReader br = new BufferedReader(isr);) {
+						br.readLine();
+						rows = new HashMap<Long, Set<Rf2DescriptionRow>>();
+						int counter = 1;
+						while (br.ready()) {
+							String line = br.readLine();
+							Rf2DescriptionRow currentRow = new Rf2DescriptionRow(line);
+							if (currentRow.getTypeId() == 900000000000003001L) {
+								conceptIdFsn.put(currentRow.getConceptId(), currentRow.getTerm());
+							}
 
-			if (rows.containsKey(currentRow.getId())) {
-				rows.get(currentRow.getId()).add(currentRow);
-			} else {
-				Set<Rf2DescriptionRow> rowSet = new HashSet<Rf2DescriptionRow>();
-				rowSet.add(currentRow);
-				rows.put(currentRow.getId(), (Set<Rf2DescriptionRow>) rowSet);
-			}
-			counter++;
-			if (counter % 500000 == 0) {
-				System.out.print("...............");
-			}
+							if (rows.containsKey(currentRow.getId())) {
+								rows.get(currentRow.getId()).add(currentRow);
+							} else {
+								Set<Rf2DescriptionRow> rowSet = new HashSet<Rf2DescriptionRow>();
+								rowSet.add(currentRow);
+								rows.put(currentRow.getId(), (Set<Rf2DescriptionRow>) rowSet);
+							}
+							counter++;
+							if (counter % 500000 == 0) {
+								System.out.print("...............");
+							}
+						}
+						System.out.println();
+					}
 		}
-		System.out.println();
-		br.close();
 	}
 
 	@Override

@@ -169,7 +169,7 @@ public class ReleaseFilesReportPlugin extends AbstractMojo {
 				outputDirectory.mkdirs();
 			}
 			changeSummary=new ChangeSummary();
-			logger.info("Loading descriptinos");
+			logger.info("Loading descriptions");
 			Rf2DescriptionFile rf2DescFile = new Rf2DescriptionFile(getFilePath(ReleaseFileType.DESCRIPTION));
 			logger.info("Loading concepts");
 			Rf2ConceptFile conceptFile = new Rf2ConceptFile(getFilePath(ReleaseFileType.CONCEPT));
@@ -187,7 +187,7 @@ public class ReleaseFilesReportPlugin extends AbstractMojo {
 			saveSummary();
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new RuntimeException("Failed to genereate release report due to:",e);
+			logger.error("Failed to genereate release report due to:",e);
 		}
 
 	}
@@ -309,45 +309,48 @@ public class ReleaseFilesReportPlugin extends AbstractMojo {
 		
 	}
 
-	private String getFilePath(ReleaseFileType descriptions) {
-		String result = "";
-		switch (descriptions) {
+	private String getFilePath(ReleaseFileType fileType) {
+		String result = null;
+		switch (fileType) {
 		case DESCRIPTION:
 			//add sct2 for description to differentiate from the descriptionType refset file
-			result = getFilePathRecursive(inputDirectory, "sct2_description");
+			result = getFilePathRecursive(inputDirectory, "sct2_Description");
 			break;
 		case CONCEPT:
-			result = getFilePathRecursive(inputDirectory, "concept");
+			result = getFilePathRecursive(inputDirectory, "sct2_Concept");
 			break;
 		case RELATIONSHIP:
-			result = getFilePathRecursive(inputDirectory, "relationship");
+			result = getFilePathRecursive(inputDirectory, "sct2_Relationship");
 			break;
 		case ASSOCIATION_REFSET:
-			result = getFilePathRecursive(inputDirectory, "associationreference");
+			result = getFilePathRecursive(inputDirectory, "der2_cRefset_AssociationReference");
 			break;
 		case ATTRIBUTE_VALUE_REFSET:
-			result = getFilePathRecursive(inputDirectory, "attributevalue");
+			result = getFilePathRecursive(inputDirectory, "der2_cRefset_AttributeValue");
 			break;
 		case LANGUAGE_REFSET:
-			result = getFilePathRecursive(inputDirectory, "refset_language");
+			result = getFilePathRecursive(inputDirectory, "der2_cRefset_Language");
 			break;
 		default:
 			break;
+		}
+		if (result == null) {
+			logger.error("No file is found for release file type:" + fileType.toString() + " in folder:" + inputDirectory);
 		}
 		return result;
 	}
 
 	public String getFilePathRecursive(File folder, String namePart) {
-		String result = "";
+		String result = null;
 		if (folder.isDirectory()) {
 			File[] files = folder.listFiles();
 			int i = 0;
-			while (i < files.length && result.equals("")) {
+			while (i < files.length && result == null) {
 				result = getFilePathRecursive(files[i], namePart);
 				i++;
 			}
 		} else {
-			if (folder.getName().toLowerCase().contains(namePart)) {
+			if (folder.getName().contains(namePart)) {
 				if (releaseDate != null && !releaseDate.equals("") && folder.getName().contains(releaseDate)) {
 					result = folder.getPath();
 				} else if (releaseDate == null || releaseDate.equals("")) {

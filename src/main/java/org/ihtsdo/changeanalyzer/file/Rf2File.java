@@ -19,12 +19,16 @@ public class Rf2File<T extends Rf2Row> {
 	}
 
 	public Rf2File(String filePath) {
-		file = new File(filePath);
-		try {
-			setUp();
-			loadFile();
-		} catch (Exception e) {
-			e.printStackTrace();
+		initialize();
+		if (filePath != null) {
+			file = new File(filePath);
+			try {
+				setUp();
+				loadFile();
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new RuntimeException("Error when loading file:" + filePath,e);
+			}
 		}
 	}
 	

@@ -18,24 +18,23 @@ public class Rf2AssociationRefsetFile extends Rf2RefsetFile<Rf2AssociationRefset
 
 	@Override
 	protected void loadFile() throws Exception {
-		FileInputStream fis = new FileInputStream(file);
+		try (FileInputStream fis = new FileInputStream(file);
 		InputStreamReader isr = new InputStreamReader(fis, "UTF-8");
-		BufferedReader br = new BufferedReader(isr);
-		br.readLine();
-		rows = new HashMap<String, Set<Rf2AssociationRefsetRow>>();
-		while (br.ready()) {
-			String line = br.readLine();
-			Rf2AssociationRefsetRow currentRow = new Rf2AssociationRefsetRow(line);
-			if (rows.containsKey(currentRow.getReferencedComponentId())) {
-				rows.get(currentRow.getReferencedComponentId()).add(currentRow);
-			} else {
-				Set<Rf2AssociationRefsetRow> rowSet = new HashSet<Rf2AssociationRefsetRow>();
-				rowSet.add(currentRow);
-				rows.put(currentRow.getReferencedComponentId(), (Set<Rf2AssociationRefsetRow>) rowSet);
+		BufferedReader br = new BufferedReader(isr);) {
+			br.readLine();
+			rows = new HashMap<String, Set<Rf2AssociationRefsetRow>>();
+			while (br.ready()) {
+				String line = br.readLine();
+				Rf2AssociationRefsetRow currentRow = new Rf2AssociationRefsetRow(line);
+				if (rows.containsKey(currentRow.getReferencedComponentId())) {
+					rows.get(currentRow.getReferencedComponentId()).add(currentRow);
+				} else {
+					Set<Rf2AssociationRefsetRow> rowSet = new HashSet<Rf2AssociationRefsetRow>();
+					rowSet.add(currentRow);
+					rows.put(currentRow.getReferencedComponentId(), (Set<Rf2AssociationRefsetRow>) rowSet);
+				}
 			}
 		}
-
-		br.close();
 	}
 
 	public ArrayList<String> getTargetComponentChanged(String startDate, String endDate) {
