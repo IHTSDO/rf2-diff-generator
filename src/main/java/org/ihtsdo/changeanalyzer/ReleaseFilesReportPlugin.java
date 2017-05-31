@@ -308,7 +308,7 @@ public class ReleaseFilesReportPlugin extends AbstractMojo {
 
 	private void saveSummary() throws IOException {
 		
-		changeSummary.setTitle("Changes in "+ editionName" Edition " +  endDate + " Development Path since " + startDate + " "+ editionName" Release");
+		changeSummary.setTitle("Changes in "+ editionName+" Edition " +  endDate + " Development Path since " + startDate + " "+ editionName+" Release");
 		Date now=new Date();
 		changeSummary.setExecutionTime(now.toString());
 		changeSummary.setFrom(startDate);
