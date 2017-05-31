@@ -75,6 +75,8 @@ public class ReleaseFilesReportPlugin extends AbstractMojo {
 	private static final String PRIMITIVE_CONCEPTS_REPORT = "primitive_concepts.json";
 	
 	private static final String TARGET_POINTER_TO_CHANGED_SOURCE_DESCRIPTION = "active_language_references_to_now_inactive_descriptions.json";
+	
+	private static final String DEFAULT_EDITION = "International";
 
     private String sep = System.getProperty("line.separator");
     
@@ -126,6 +128,17 @@ public class ReleaseFilesReportPlugin extends AbstractMojo {
 	public void setReleaseDate(String releaseDate) {
 		this.releaseDate = releaseDate;
 	}
+	
+	public String getEditionName() {
+		if(editionName == null || editionName.isEmpty() ){
+			setEditionName(DEFAULT_EDITION);
+		}
+		return editionName;
+	}
+
+	public void setEditionName(String editionName) {
+		this.editionName = editionName;
+	}
 
 
 	/**
@@ -151,6 +164,13 @@ public class ReleaseFilesReportPlugin extends AbstractMojo {
 	 * @parameter
 	 */
 	private String releaseDate;
+	
+	/**
+	 * Edition name. Default to International if not set
+	 * 
+	 * @parameter
+	 */
+	private String editionName;
 
 	/**
 	 * Target Language File
@@ -288,7 +308,7 @@ public class ReleaseFilesReportPlugin extends AbstractMojo {
 
 	private void saveSummary() throws IOException {
 		
-		changeSummary.setTitle("Changes in International Edition " +  endDate + " Development Path since " + startDate + " International Release");
+		changeSummary.setTitle("Changes in "+ editionName" Edition " +  endDate + " Development Path since " + startDate + " "+ editionName" Release");
 		Date now=new Date();
 		changeSummary.setExecutionTime(now.toString());
 		changeSummary.setFrom(startDate);

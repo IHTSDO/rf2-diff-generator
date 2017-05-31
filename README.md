@@ -16,5 +16,6 @@ The config.xml looks like this:
     # One date after the previous release
     <startDate>20160201</startDate>
     <currentReleaseDate>20160731</currentReleaseDate>
+    <editionName>International</editionName>
 </config>
 
