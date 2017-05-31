@@ -76,8 +76,6 @@ public class ReleaseFilesReportPlugin extends AbstractMojo {
 	
 	private static final String TARGET_POINTER_TO_CHANGED_SOURCE_DESCRIPTION = "active_language_references_to_now_inactive_descriptions.json";
 	
-	private static final String DEFAULT_EDITION = "International";
-
     private String sep = System.getProperty("line.separator");
     
     private Gson gson = new Gson();
@@ -130,9 +128,6 @@ public class ReleaseFilesReportPlugin extends AbstractMojo {
 	}
 	
 	public String getEditionName() {
-		if(editionName == null || editionName.isEmpty() ){
-			setEditionName(DEFAULT_EDITION);
-		}
 		return editionName;
 	}
 

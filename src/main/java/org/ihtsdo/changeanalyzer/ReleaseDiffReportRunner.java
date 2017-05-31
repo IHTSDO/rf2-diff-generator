@@ -10,6 +10,8 @@ public class ReleaseDiffReportRunner {
 	private static final String START_DATE = "startDate";
 	private static final String DIFF_REPORT_OUTPUT_DIR = "diffReportOutputDirectory";
 	private static final String INPUT_FULL_DIR = "inputFullFileDirectory";
+	private static final String EDITION_NAME = "editionName";
+	private static final String DEFAULT_EDITION = "International";
 
 	public static void main(String[] args) throws Exception {
 		if (args == null || args.length < 1 ) {
@@ -22,6 +24,7 @@ public class ReleaseDiffReportRunner {
 		String outputDir = xmlConfig.getString(DIFF_REPORT_OUTPUT_DIR);
 		String startDate = xmlConfig.getString(START_DATE);
 		String endDate = xmlConfig.getString(CURRENT_RELEASE_DATE);
+		String editionName = xmlConfig.getString(EDITION_NAME,DEFAULT_EDITION);
 		
 		ReleaseFilesReportPlugin report = new ReleaseFilesReportPlugin();
 		report.setInputDirectory(new File(inputDir));
@@ -29,6 +32,7 @@ public class ReleaseDiffReportRunner {
 		report.setStartDate(startDate);
 		report.setEndDate(endDate);
 		report.setReleaseDate(endDate);
+		report.setEditionName(editionName);
 		report.execute();
 	}
 
