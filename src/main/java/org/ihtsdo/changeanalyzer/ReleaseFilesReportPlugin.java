@@ -201,8 +201,7 @@ public class ReleaseFilesReportPlugin extends AbstractMojo {
 			generateReportForDescriptionChanges(rf2DescFile);
 			saveSummary();
 		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("Failed to genereate release report due to:",e);
+			logger.error("Failed to genereate release report due to:", e);
 		}
 
 	}
@@ -338,7 +337,7 @@ public class ReleaseFilesReportPlugin extends AbstractMojo {
 			result = getFilePathRecursive(inputDirectory, "sct2_Relationship");
 			break;
 		case ASSOCIATION_REFSET:
-			result = getFilePathRecursive(inputDirectory, "der2_cRefset_AssociationReference");
+			result = getFilePathRecursive(inputDirectory, "der2_cRefset_Association");
 			break;
 		case ATTRIBUTE_VALUE_REFSET:
 			result = getFilePathRecursive(inputDirectory, "der2_cRefset_AttributeValue");
